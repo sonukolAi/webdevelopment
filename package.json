@@ -2,7 +2,7 @@
   "name": "nodemon-pack",
   "version": "1.0.0",
   "description": "",
-  "main": "h.js",
+  "main": "js.js",
   "directories": {
     "test": "test"
   },
