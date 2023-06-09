@@ -8,12 +8,7 @@ const port = process.env.PORT || 3330;
 app.get('/:num', async (req, res) => {
   try {
     const { num } = req.params;
-    const url = `https://www.google.com/search?q=${num}+train+running+status`;
-    const { data } = await axios.get(url, { 
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-      }
-    });
+    const { data } = await axios.get(`https://www.confirmtkt.com/train-running-status/${num}`);
     const modifiedData = modifyJSON(data);
     res.json(modifiedData);
   } catch (error) {
@@ -28,9 +23,12 @@ app.listen(port, () => {
 
 function modifyJSON(data) {
   const $ = cheerio.load(data);
-  const trainName = $('div.k9rLYb').eq(0).text().trim();
-  const liveStatus = $('div.dK1Bub .rUtx7d').eq(1).text();//.replace('Est arrival', 'pahuch ne wali').replace('Est departure', 'pahuchi thi');
-  const delayTime = $('div.Rjvkvf.MB86Dc').eq(1).text().trim();
-  
-  return { trainName, liveStatus, delayTime };
+
+  const modifiedData = {
+    trainName: $('title').text(),
+    station: $('.circle.blink').next('.rs__station-name').map((index, element) => $(element).text()).get(),
+    time: $('.circle.blink').parent().nextAll('.col-xs-2').map((index, element) => $(element).text().trim()).get().join(' ')
+  };
+
+  return modifiedData;
 }
