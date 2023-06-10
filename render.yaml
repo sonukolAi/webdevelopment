@@ -3,4 +3,5 @@ name: my-app
 env:
   PYTHON_VERSION: 3.9
 buildCommand: pip install -r requirements.txt
-startCommand: python app.py
+startCommand: gunicorn app:app -c gunicorn_config.py
+
