@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+
 from flask import Flask
 
 app = Flask(__name__)
@@ -15,7 +16,6 @@ def get_train_status(num):
         response = requests.get(url, headers=headers)
         data = response.text
         modified_data = modify_json(data)
-        write_to_file(modified_data)
         return modified_data
     except Exception as e:
         print(e)
@@ -32,10 +32,6 @@ def modify_json(data):
         'liveStatus': live_status,
         'delayTime': delay_time
     }
-
-def write_to_file(data):
-    with open('output.txt', 'w') as file:
-        file.write(str(data))
 
 if __name__ == '__main__':
     app.run(port=PORT)
