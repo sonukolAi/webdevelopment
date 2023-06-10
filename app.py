@@ -33,10 +33,10 @@ def modify_html(data):
         <title>Train Status</title>
     </head>
     <body>
-        <h1>Train Status</h1>
-        <p>Train Name: {train_name}</p>
-        <p>Live Status: {live_status}</p>
-        <p>Delay Time: {delay_time}</p>
+      <center>  <h1>Train Status</h1>
+        <h3>Train Name: {train_name}</h3>
+        <h3>Live Status: {live_status}</h3>
+        <h3>Delay Time: {delay_time}</h3> </center>
     </body>
     </html>
     '''
