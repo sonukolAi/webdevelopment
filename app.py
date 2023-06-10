@@ -11,7 +11,7 @@ def get_train_status(num):
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
-        response = requests.get(url)#, headers=headers)
+        response = requests.get(url, headers=headers)
         modified_html = modify_html(response.text)  # Modify the HTML response
         return modified_html
     except Exception as e:
@@ -24,4 +24,4 @@ def modify_html(html):
     return modified_html
 
 if __name__ == '__main__':
-    app.run(port=PORT)
+    app.run(host='0.0.0.0', port=PORT)
