@@ -1,7 +1,5 @@
 import requests
-from bs4 import BeautifulSoup
-
-from flask import Flask, render_template_string
+from flask import Flask
 
 app = Flask(__name__)
 PORT = 3330
@@ -13,34 +11,16 @@ def get_train_status(num):
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
-        response = requests.get(url)
-        data = response.text
-        modified_data = modify_html(data)
-        return render_template_string(modified_data)
+        response = requests.get(url, headers=headers)
+        modified_html = modify_html(response.text)  # Modify the HTML response
+        return modified_html
     except Exception as e:
-        print(e)
-        return 'Error occurred', 500
+        return f"Error: {str(e)}"
 
-def modify_html(data):
-    soup = BeautifulSoup(data, 'html.parser')
-    train_name = soup.select('div.k9rLYb')[0].text.strip()
-    live_status = soup.select('div.dK1Bub .rUtx7d')[1].text
-    delay_time = soup.select('div.Rjvkvf.MB86Dc')[1].text.strip()
-
-    modified_html = f'''
-    <html>
-    <head>
-        <title>Train Status</title>
-    </head>
-    <body>
-      <center>  <h1>Train Status</h1>
-        <h3>Train Name: {train_name}</h3>
-        <h3>Live Status: {live_status}</h3>
-        <h3>Delay Time: {delay_time}</h3> </center>
-    </body>
-    </html>
-    '''
-
+def modify_html(html):
+    # Implement your logic to modify the HTML response here
+    # You can use libraries like BeautifulSoup to parse and manipulate the HTML
+    modified_html = html  # Placeholder, modify the HTML as per your requirements
     return modified_html
 
 if __name__ == '__main__':
